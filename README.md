@@ -1,66 +1,115 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Descripción General
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**"Tournament Arena"** es una plataforma web desarrollada con Laravel que permite gestionar torneos deportivos. El sistema está diseñado con dos tipos principales de usuarios: equipos y organizaciones. Las organizaciones pueden crear y gestionar torneos, mientras que los equipos pueden inscribirse y participar en estos torneos.
 
-## About Laravel
+## Arquitectura del Sistema
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+El sistema sigue una arquitectura MVC (Modelo-Vista-Controlador) propia de Laravel, con las siguientes características:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Modelos**: Representan las entidades del negocio como Usuario, Equipo, Torneo, Partido, etc.
+- **Vistas**: Interfaces de usuario implementadas con Blade y Tailwind CSS.
+- **Controladores**: Manejan la lógica de negocio y la interacción entre modelos y vistas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Sistema de Autenticación
 
-## Learning Laravel
+El sistema de autenticación está implementado usando Laravel Breeze, que proporciona:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Registro de usuarios
+- Inicio de sesión
+- Gestión de perfiles
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Se ha personalizado para permitir diferentes tipos de usuarios (equipos y organizaciones) con un campo adicional `type` en el modelo de Usuario.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Estructura de Rutas
 
-## Laravel Sponsors
+Las rutas están organizadas de la siguiente manera:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Rutas públicas**: Accesibles para todos los usuarios (página de bienvenida).
+- **Rutas de autenticación**: Para registro, inicio de sesión y gestión de contraseñas.
+- **Rutas protegidas**: Requieren autenticación y a veces verificación de email.
+- **Rutas específicas para equipos**
+- **Rutas específicas para organizaciones**
+- **Rutas para gestión de perfil**
 
-### Premium Partners
+El sistema implementa una redirección inteligente después del inicio de sesión, dirigiendo a los usuarios al dashboard correspondiente según su tipo (equipo u organización).
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Controladores Principales
 
-## Contributing
+- **AuthenticatedSessionController**: Maneja los procesos de inicio y cierre de sesión.
+- **RegisteredUserController**: Procesa el registro de nuevos usuarios, validando la información y asignando el tipo correspondiente.
+- **ProfileController**: Permite a los usuarios ver y actualizar su información de perfil.
+- **TournamentController**: Gestiona la creación y administración de torneos.
+- **TeamController**: Administra la información de los equipos.
+- **MatchesController**: Gestiona los partidos dentro de los torneos.
+- **TeamTournamentController**: Maneja la relación entre equipos y torneos (inscripciones).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Flujos de Usuario
 
-## Code of Conduct
+### Para Organizaciones:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- Registro como organización
+- Creación de torneos
+- Gestión de equipos participantes
+- Programación de partidos
+- Visualización de estadísticas y resultados
 
-## Security Vulnerabilities
+### Para Equipos:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- Registro como equipo
+- Exploración de torneos disponibles
+- Inscripción en torneos
+- Gestión del calendario de partidos
+- Seguimiento de resultados y clasificaciones
 
-## License
+## Interfaces de Usuario
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Se han implementado diferentes interfaces adaptadas a cada tipo de usuario:
+
+- **Página de bienvenida**: Presenta la plataforma a visitantes no registrados.
+- **Dashboard para equipos**: Panel de control adaptado a las necesidades de los equipos.
+- **Dashboard para organizaciones**: Interfaz enfocada en la gestión de torneos.
+
+Todas las interfaces siguen un diseño coherente utilizando Tailwind CSS para lograr un aspecto moderno y responsivo.
+
+## Validación y Seguridad
+
+- Validación de datos de entrada en todos los formularios.
+- Protección contra CSRF en todas las peticiones POST.
+- Middleware de autenticación para proteger rutas privadas.
+- Verificación de tipo de usuario para acceso a funcionalidades específicas.
+
+## Gestión de Errores
+
+El sistema incluye manejo de:
+
+- Errores de autenticación
+- Errores de validación de formularios
+- Errores de acceso no autorizado (403)
+- Errores de recursos no encontrados (404)
+
+## Tecnologías Utilizadas
+
+- **Laravel**: Framework PHP para el backend.
+- **Blade**: Motor de plantillas de Laravel.
+- **Tailwind CSS**: Framework CSS para el diseño de interfaces.
+- **Laravel Breeze**: Starter kit para autenticación.
+- **MySQL**: Base de datos relacional.
+
+## Decisiones de Diseño
+
+- **Separación por tipo de usuario**: Los dashboards y funcionalidades están estrictamente separados según el tipo de usuario, mejorando la experiencia del usuario y la seguridad.
+- **Vistas específicas por contexto**: Se han creado vistas especializadas para cada tipo de usuario, optimizando la relevancia de la información presentada.
+- **Redirección inteligente**: Los usuarios son dirigidos automáticamente al dashboard que corresponde a su tipo, simplificando la navegación.
+- **Diseño responsivo**: Todas las interfaces están optimizadas para funcionar en dispositivos móviles y de escritorio.
+- **Validación en tiempo real**: Los formularios incluyen validación del lado del cliente para mejorar la experiencia del usuario.
+
+## Extensibilidad
+
+El sistema está diseñado para ser fácilmente ampliable con:
+
+- Nuevos tipos de torneos
+- Estadísticas adicionales
+- Funcionalidades sociales
+- Integración con servicios externos
+
+Esta arquitectura modular permite añadir nuevas características sin afectar las funcionalidades existentes.

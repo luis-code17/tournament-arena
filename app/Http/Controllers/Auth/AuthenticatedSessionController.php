@@ -1,54 +1,48 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+namespace App\Http\Controllers\Auth;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Providers\AppServiceProvider;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-// Rutas accesibles para todos los usuarios autenticados
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        // Redirección basada en el tipo de usuario
-        if (auth()->user()->isTeam()) {
-            return redirect('/team/dashboard');
-        } elseif (auth()->user()->isOrganization()) {
-            return redirect('/organization/dashboard');
-        }
-        return view('dashboard');
-    })->name('dashboard');
-});
+class AuthenticatedSessionController extends Controller
+{
+    /**
+     * Display the login view.
+     */
+    public function create(): View
+    {
+        return view('auth.login');
+    }
 
-// Rutas específicas para equipos
-Route::middleware(['auth', 'verified'])->prefix('team')->group(function () {
-    Route::get('/dashboard', function () {
-        if (!auth()->user()->isTeam()) {
-            abort(403);
-        }
-        return view('team.dashboard');
-    })->name('team.dashboard');
-    
-    // Aquí puedes agregar más rutas específicas para equipos
-});
+    /**
+     * Handle an incoming authentication request.
+     */
+    public function store(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
 
-// Rutas específicas para organizaciones
-Route::middleware(['auth', 'verified'])->prefix('organization')->group(function () {
-    Route::get('/dashboard', function () {
-        if (!auth()->user()->isOrganization()) {
-            abort(403);
-        }
-        return view('organization.dashboard');
-    })->name('organization.dashboard');
-    
-    // Aquí puedes agregar más rutas específicas para organizaciones
-});
+        $request->session()->regenerate();
 
-// Rutas de perfil
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+        return redirect()->intended(AppServiceProvider::HOME);
+    }
 
-require __DIR__ .'/../../../../routes/auth.php';
+    /**
+     * Destroy an authenticated session.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+}
