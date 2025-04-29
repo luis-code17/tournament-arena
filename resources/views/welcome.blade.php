@@ -177,6 +177,28 @@
                 </div>
             </div>
 
+            <!-- Public Tournaments Section -->
+            <div class="bg-gray-100">
+                <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                    <div class="lg:w-0 lg:flex-1">
+                        <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                            <span class="block">Explora torneos públicos</span>
+                            <span class="block text-blue-600 mt-1">Encuentra y únete a competiciones en curso</span>
+                        </h2>
+                        <p class="mt-3 max-w-3xl text-lg text-gray-500">
+                            Descubre torneos abiertos organizados por nuestra comunidad. Mantente al día con los resultados y clasificaciones de las competiciones activas.
+                        </p>
+                    </div>
+                    <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                        <div class="inline-flex rounded-md shadow">
+                            <a href="{{ url('/tournaments') }}" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-black bg-blue-700 hover:bg-blue-800">
+                                Ver torneos públicos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Footer -->
             <footer class="bg-gray-50 border-t border-gray-200">
                 <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">

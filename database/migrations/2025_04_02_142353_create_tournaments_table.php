@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('desc')->nullable();
             $table->date('start_date');
             $table->date('end_date');
-            $table->foreignId('organization_id')->constrained('organizations')->onDelete('cascade');
+            $table->foreignId('organization_id')->constrained('users')->onDelete('cascade');
             $table->enum('state', ['pending', 'in_progress', 'finished'])->default('pending');
             $table->timestamps();
         });
