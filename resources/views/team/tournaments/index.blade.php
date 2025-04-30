@@ -129,7 +129,7 @@
                                 <h3 class="mt-2 text-sm font-medium text-gray-900">No pending registrations</h3>
                                 <p class="mt-1 text-sm text-gray-500">You don't have any pending tournament registrations.</p>
                                 <div class="mt-6">
-                                    <a href="{{ route('tournaments.index') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <a href="{{ route('public.tournaments.index') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         View Available Tournaments
                                     </a>
                                 </div>
@@ -149,11 +149,6 @@
                                                         Registration Accepted
                                                     </span>
                                                 </p>
-                                            </div>
-                                            <div>
-                                                <a href="{{ route('tournaments.show', $registration->tournament) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                    View Tournament
-                                                </a>
                                             </div>
                                         </div>
                                         <div class="p-4">

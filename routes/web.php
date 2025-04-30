@@ -95,9 +95,9 @@ Route::middleware(['auth', 'verified'])->prefix('organization/matches')->group(f
 // Rutas para torneos (accesible para equipos)
 Route::middleware(['auth', 'verified'])->group(function () {
     // Vista de torneos disponibles
-    Route::get('/tournaments', [TournamentController::class, 'index'])->name('tournaments.index');
-    Route::get('/tournaments/{tournament}', [TournamentController::class, 'show'])->name('tournaments.show');
-    Route::get('/tournaments/{tournament}/join', [TournamentController::class, 'join'])->name('tournaments.join');
+    Route::get('/tournaments', [TournamentController::class, 'index'])->name('team.tournaments.index');
+    Route::get('/tournaments/{tournament}', [TournamentController::class, 'show'])->name('team.tournaments.show');
+    Route::get('/tournaments/{tournament}/join', [TournamentController::class, 'join'])->name('team.tournaments.join');
 });
 
 // Rutas para inscripción a torneos (específico para equipos)
